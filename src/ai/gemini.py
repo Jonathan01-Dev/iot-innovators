@@ -14,7 +14,7 @@ class ArchipelAI:
             try:
                 import google.generativeai as genai
                 genai.configure(api_key=self.api_key)
-                self.model = genai.GenerativeModel("gemini-1.5-pro-latest")
+                self.model = genai.GenerativeModel("gemini-1.5-flash")
                 print("[IA] Assistant Gemini activé ⚠")
             except ImportError:
                 print("[IA] Module google-generativeai non installé. Assistant désactivé.")
