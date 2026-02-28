@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables (NEVER commit)
+.env
+
+# Archipel data files (clés privées et données de nœud)
+.archipel*/
+*.key
+
+# Téléchargements
+.archipel_downloads/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
