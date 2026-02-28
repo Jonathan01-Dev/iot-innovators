@@ -44,8 +44,8 @@ async def start_node(port: int, identity: NodeIdentity, wot: WebOfTrust):
     file_manager = FileManager(identity, file_index)
     transfer_manager = TransferManager(tcp_server, file_manager, file_index)
     
-    # 4. Initialiser l'IA (optionnel)
-        ai_assistant = ArchipelAI()
+    # 4. Initialiser l'IA
+    ai_assistant = ArchipelAI()
     
     # 5. Démarrer le CLI Interactif (REPL)
     cli = ArchipelCLI(tcp_server, table, wot, identity, ai_assistant, transfer_manager)
