@@ -1,6 +1,8 @@
 import argparse
 import sys
 import asyncio
+import os
+from pathlib import Path
 from src.crypto.pki import NodeIdentity
 from src.network.peer_table import PeerTable
 from src.network.discovery import DiscoveryProtocol, create_multicast_socket
@@ -70,6 +72,18 @@ def main():
         import io
         sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
         sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', line_buffering=True)
+
+    env_path = Path(__file__).resolve().parents[0] / ".env"
+    if env_path.exists():
+        for raw in env_path.read_text(encoding="utf-8-sig").splitlines():
+            line = raw.strip().lstrip("\ufeff")
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and value:
+                os.environ.setdefault(key, value)
 
     parser = argparse.ArgumentParser(
         description="Archipel — Protocole P2P Chiffré et Décentralisé à Zéro-Connexion"
