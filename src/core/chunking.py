@@ -89,7 +89,7 @@ class FileManager:
         }
         
         # Hash et Signature du manifest
-        manifest_json_bytes = json.dumps(manifest, sort_keys=True).encode()
+        manifest_json_bytes = canonical_manifest_bytes(manifest)
         manifest_hash = hashlib.sha256(manifest_json_bytes).digest()
         signature = self.identity.sign(manifest_hash)
         manifest["signature"] = signature.hex()
