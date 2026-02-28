@@ -24,7 +24,7 @@ BANNER = r"""
   Hackathon LBS · Février 2026
 """
 
-async def start_node(port: int, identity: NodeIdentity, wot: WebOfTrust, no_ai: bool = False):
+async def start_node(port: int, identity: NodeIdentity, wot: WebOfTrust):
     table = PeerTable()
     file_index = SharedFileIndex()
     
@@ -45,7 +45,7 @@ async def start_node(port: int, identity: NodeIdentity, wot: WebOfTrust, no_ai: 
     transfer_manager = TransferManager(tcp_server, file_manager, file_index)
     
     # 4. Initialiser l'IA (optionnel)
-    ai_assistant = ArchipelAI(disabled=no_ai)
+        ai_assistant = ArchipelAI()
     
     # 5. Démarrer le CLI Interactif (REPL)
     cli = ArchipelCLI(tcp_server, table, wot, identity, ai_assistant, transfer_manager)
@@ -93,7 +93,6 @@ def main():
     # Commande 'start'
     start_parser = subparsers.add_parser("start", help="Démarre le nœud Archipel")
     start_parser.add_argument("--port", type=int, default=7777, help="Port TCP d'écoute (défaut: 7777)")
-    start_parser.add_argument("--no-ai", action="store_true", help="Désactiver l'assistant Gemini")
 
     # Commande 'status'
     subparsers.add_parser("status", help="Affiche l'état du nœud (hors-ligne)")
@@ -101,7 +100,7 @@ def main():
     args = parser.parse_args()
 
     port = getattr(args, 'port', 7777)
-    no_ai = getattr(args, 'no_ai', False)
+    no_ai = False
     key_path = f".archipel_{port}/identity.key"
     wot_path = f".archipel_{port}/trusted_nodes.json"
     
@@ -112,7 +111,7 @@ def main():
 
     if args.command == "start":
         try:
-            asyncio.run(start_node(port, identity, wot, no_ai))
+            asyncio.run(start_node(port, identity, wot))
         except KeyboardInterrupt:
             pass
             
